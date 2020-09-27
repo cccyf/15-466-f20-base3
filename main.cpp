@@ -101,6 +101,7 @@ int main(int argc, char **argv) {
 	//------------ create game mode + make current --------------
 	Mode::set_current(std::make_shared< PlayMode >());
 
+
 	//------------ main loop ------------
 
 	//this inline function will be called whenever the window is resized,
@@ -127,9 +128,11 @@ int main(int argc, char **argv) {
 			static SDL_Event evt;
 			while (SDL_PollEvent(&evt) == 1) {
 				//handle resizing:
+
 				if (evt.type == SDL_WINDOWEVENT && evt.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
 					on_resize();
 				}
+
 				//handle input:
 				if (Mode::current && Mode::current->handle_event(evt, window_size)) {
 					// mode handled it; great
@@ -164,7 +167,6 @@ int main(int argc, char **argv) {
 			//if frames are taking a very long time to process,
 			//lag to avoid spiral of death:
 			elapsed = std::min(0.1f, elapsed);
-
 			Mode::current->update(elapsed);
 			if (!Mode::current) break;
 		}
