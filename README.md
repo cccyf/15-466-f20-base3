@@ -1,8 +1,11 @@
-# (TODO: your game's title)
+# Hey Robin
 
-Author: (TODO: your name)
+Author: YF
 
-Design: (TODO: In two sentences or fewer, describe what is new and interesting about your game.)
+Design: 
+
+- The robin is trying to eat the egg. You'll need to keep the egg as long as you can.
+- The robin might play tricks on you, such as singing or turning around. You can take these opportunities but still pay attention to the risks.
 
 Screen Shot:
 
@@ -10,12 +13,13 @@ Screen Shot:
 
 How To Play:
 
-(TODO: describe the controls and (if needed) goals/strategy.)
+- Press A or D to move the egg to the left or the right.
+- You can gain credits only when the egg is placed at the middle.
 
-Sources: (TODO: list a source URL for any assets you did not create yourself. Make sure you have a license for the asset.)
-- "Bird Whistling, Robin, Single, 13.wav" by InspectorJ (www.jshaw.co.uk) of Freesound.org. Link here: https://freesound.org/people/InspectorJ/sounds/456440/
-- game over link here: https://freesound.org/people/noirenex/sounds/159408/
-- bg: https://freesound.org/people/itsmochajones/sounds/530294/
+Sources: 
+- robin.wav: "[Bird Whistling, Robin, Single, 13.wav](https://freesound.org/people/InspectorJ/sounds/456440/)" by InspectorJ (www.jshaw.co.uk) of Freesound.org.
+- game_over.wav: "[Life Lost Game Over](https://freesound.org/people/noirenex/sounds/159408/#)" by [noirenex](https://freesound.org/people/noirenex/).
+- bg.wav: "[Street Gospel Hip Hip Piano - 75bpm - Bbmaj](https://freesound.org/people/itsmochajones/sounds/530294/)" by [itsmochajones](https://freesound.org/people/itsmochajones/) of Freesound.org. 
 
 This game was built with [NEST](NEST.md).
 

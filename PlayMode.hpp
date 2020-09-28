@@ -19,7 +19,6 @@ struct PlayMode : Mode {
 
 	void sing(float elapsed);
 	void rotate(float elapsed);
-	void move(float elapsed, int direction);
 	void eat(float elapsed);
 	void think(float elapsed);
 
@@ -82,21 +81,10 @@ struct PlayMode : Mode {
 	float game_duration = 0.0f;
 
 	std::shared_ptr< Sound::PlayingSample > robin;
-	//hexapod leg to wobble:
-	Scene::Transform *hip = nullptr;
-	Scene::Transform *upper_leg = nullptr;
-	Scene::Transform *lower_leg = nullptr;
-	glm::quat hip_base_rotation;
-	glm::quat upper_leg_base_rotation;
-	glm::quat lower_leg_base_rotation;
-	float wobble = 0.0f;
-
-	glm::vec3 get_leg_tip_position();
-
-	//music coming from the tip of the leg (as a demonstration):
-	std::shared_ptr< Sound::PlayingSample > leg_tip_loop;
 	
 	//camera:
 	Scene::Camera *camera = nullptr;
+
+	float wobble = 0.0f;
 
 };

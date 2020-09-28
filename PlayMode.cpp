@@ -37,9 +37,9 @@ Load< Scene > bird_scene(LoadTagDefault, []() -> Scene const * {
 	});
 });
 
-Load< Sound::Sample > dusty_floor_sample(LoadTagDefault, []() -> Sound::Sample const * {
-	return new Sound::Sample(data_path("dusty-floor.opus"));
-});
+// Load< Sound::Sample > dusty_floor_sample(LoadTagDefault, []() -> Sound::Sample const * {
+// 	return new Sound::Sample(data_path("dusty-floor.opus"));
+// });
 
 Load< Sound::Sample > robin_sample(LoadTagDefault, []() -> Sound::Sample const * {
 	return new Sound::Sample(data_path("robin.wav"));
@@ -81,21 +81,12 @@ PlayMode::PlayMode() : scene(*bird_scene) {
 
 	bird_rotation = body->rotation;
 
-	// head->rotation = head_rotation * glm::angleAxis(
-	// 	glm::radians(1.0f * std::sin(2.f * float(M_PI))),
-	// 	glm::vec3(0.0f, 1.0f, 0.0f)
-	// );
-
-	// hip_base_rotation = hip->rotation;
-	// upper_leg_base_rotation = upper_leg->rotation;
-	// lower_leg_base_rotation = lower_leg->rotation;
-
 	//get pointer to camera for convenience:
 	if (scene.cameras.size() != 1) throw std::runtime_error("Expecting scene to have exactly one camera, but it has " + std::to_string(scene.cameras.size()));
 	camera = &scene.cameras.front();
 
 	egg_position = egg->position;
-	std::cout << egg_position.x << " " << egg_position.y  << " " << egg_position.z << "\n";
+	// std::cout << egg_position.x << " " << egg_position.y  << " " << egg_position.z << "\n";
 
 	glm::mat4x3 frame = camera->transform->make_local_to_parent();
 	glm::vec3 right = frame[0];
@@ -108,18 +99,8 @@ PlayMode::PlayMode() : scene(*bird_scene) {
 	
 	egg->position = leftmost_pos;
 
-
-	// body->rotation = bird_rotation * glm::angleAxis(
-	// 	glm::radians(std::min(-10.f, 720.0f )),
-	// 	glm::vec3(1.0f, 0.0f, 0.0f)
-	// );
-	
 	// Sound::Sample trance =*dusty_floor_sample;
 	Sound::loop(*bg_birds_sample, 1.0, 0.0);
-
-	//start music loop playing:
-	// (note: position will be over-ridden in update())
-	// leg_tip_loop = Sound::loop_3D(*blippy_trance_sample, 1.0f, get_leg_tip_position(), 10.0f);
 }
 
 PlayMode::~PlayMode() {
@@ -161,25 +142,6 @@ bool PlayMode::handle_event(SDL_Event const &evt, glm::uvec2 const &window_size)
 			down.pressed = false;
 			return true;
 		}
-	} else if (evt.type == SDL_MOUSEBUTTONDOWN) {
-		// if (SDL_GetRelativeMouseMode() == SDL_FALSE) {
-		// 	SDL_SetRelativeMouseMode(SDL_TRUE);
-		// 	return true;
-		// }
-	} else if (evt.type == SDL_MOUSEMOTION) {
-		// if (SDL_GetRelativeMouseMode() == SDL_TRUE) {
-			// glm::vec2 motion = glm::vec2(
-			// 	evt.motion.xrel / float(window_size.y),
-			// 	-evt.motion.yrel / float(window_size.y)
-			// );
-			// camera->transform->rotation = glm::normalize(
-			// 	camera->transform->rotation
-			// 	* glm::angleAxis(-motion.x * camera->fovy, glm::vec3(0.0f, 1.0f, 0.0f))
-			// 	* glm::angleAxis(motion.y * camera->fovy, glm::vec3(1.0f, 0.0f, 0.0f))
-			// );
-			// egg->position.y = evt.motion.yrel;
-			return true;
-		// }
 	}
 
 	return false;
@@ -216,10 +178,6 @@ void PlayMode::rotate(float elapsed){
 		body->rotation = bird_rotation;
 	}
 	
-}
-
-void PlayMode::move(float elapsed, int direction){
-
 }
 
 void PlayMode::eat(float elapsed){
@@ -277,8 +235,6 @@ void PlayMode::update(float elapsed) {
 
 		glm::mat4x3 frame = camera->transform->make_local_to_parent();
 		glm::vec3 right_move = frame[0];
-		// glm::vec3 up = frame[1];
-		// glm::vec3 forward = -frame[2];
 
 		egg->position += move.x * right_move;
 
@@ -288,8 +244,6 @@ void PlayMode::update(float elapsed) {
 		}else if (egg->position.x > rightmost_pos.x){
 			egg->position = rightmost_pos;
 		}
-
-		// camera->transform->position += move.x * right + move.y * forward;
 
 		//reset button press counters:
 		left.downs = 0;
@@ -352,7 +306,7 @@ void PlayMode::update(float elapsed) {
 		if (choice < 30)
 		{
 			// sing
-			std::cout << choice << " sing\n";
+			// std::cout << choice << " sing\n";
 			sing_duration = 0.f;
 			last_duration = 0.f;
 			robin = Sound::loop(*robin_sample, 1.f, 1.f);
@@ -361,48 +315,14 @@ void PlayMode::update(float elapsed) {
 		if (choice < 50)
 		{
 			// circle back
-			std::cout << choice << " rotation\n";
+			// std::cout << choice << " rotation\n";
 			rotation_duration = 0.f;
 			last_duration = 0.f;
 			return;
 		}
 		
 		thinking = 0.f;
-		std::cout << choice << " thinking\n";
-		// if (choice < 30 && cur_pos_index > -1)
-		// {
-		// 	// move left
-		// 	move_left_duration = 0.f;
-		// 	return;
-		// }
-		// if (choice < 40 && cur_pos_index < 1)
-		// {
-		// 	// move right
-		// 	move_right_duration = 0.f;
-		// 	return;
-		// }
-		// glm::vec3 relative = head->position - egg->position;
-		// float distance = relative.x * relative.x + relative.y * relative.y + relative.z * relative.z;
-		// std::cout << choice <<" " <<distance << " eat\n";
-		// std::cout << "bird x "<< head->position.x << "egg x " << egg->position.x << "\n";
-		// std::cout << "bird y "<< head->position.y << "egg y " << egg->position.y << "\n";
-		// std::cout << "bird z "<< head->position.z << "egg z " << egg->position.z << "\n";
-	}
-
-
-
-	//move sound to follow leg tip position:
-	// leg_tip_loop->set_position(get_leg_tip_position(), 1.0f / 60.0f);
-
-
-
-	{ //update listener to camera position:
-		// glm::mat4x3 frame = camera->transform->make_local_to_parent();
-		// glm::vec3 right = frame[0];
-		// glm::vec3 at = frame[3];
-		// Sound::listener.set_position_right(at, right, 1.0f / 60.0f);
-	}
-
+		}
 
 }
 
@@ -437,7 +357,7 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 			0.0f, 0.0f, 0.0f, 1.0f
 		));
 
-		constexpr float H = 0.09f;
+		constexpr float H = 0.2f;
 		lines.draw_text("Duration: "+ std::to_string(game_duration),
 			glm::vec3(-aspect + 0.1f * H, -1.0 + 0.1f * H, 0.0),
 			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
@@ -449,9 +369,4 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
 	}
 	GL_ERRORS();
-}
-
-glm::vec3 PlayMode::get_leg_tip_position() {
-	//the vertex position here was read from the model in blender:
-	return lower_leg->make_local_to_world() * glm::vec4(-1.26137f, -11.861f, 0.0f, 1.0f);
 }
